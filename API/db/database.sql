@@ -1,0 +1,238 @@
+CREATE DATABASE upcycleconnect;
+
+USE upcycleconnect_db;
+
+CREATE TABLE particulier (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    score INT DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    derniere_connexion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE salarie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    intitule_poste VARCHAR(255) NOT NULL,
+    type_contrat VARCHAR(255) NOT NULL,
+    salaire DECIMAL(10, 2) NOT NULL,
+    date_embauche DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    derniere_connexion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE professionnel (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom_entreprise VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    numero_siret VARCHAR(14) NOT NULL,
+    telephone VARCHAR(20) NOT NULL,
+    site_web VARCHAR(255),
+    adresse VARCHAR(255) NOT NULL,
+    code_postal VARCHAR(5) NOT NULL,
+    ville VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    derniere_connexion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE annonce (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_annonceur INT NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    prix DECIMAL(10, 2) NOT NULL,
+    date_publication DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_annonceur) REFERENCES particulier(id)
+);
+
+CREATE TABLE objet (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    type_objet VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    localisation VARCHAR(255) NOT NULL,
+    id_conteneur INT NOT NULL,
+    FOREIGN KEY (id_conteneur) REFERENCES annonce(id),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
+
+CREATE TABLE conteneur (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    matricule VARCHAR(255) NOT NULL,
+    localisation VARCHAR(255) NOT NULL,
+    statut VARCHAR(255) NOT NULL,
+    occupation INT NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE service (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type_service VARCHAR(255) NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    prix DECIMAL(10, 2) NOT NULL,
+    date_service DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE paiement (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_annonce INT,
+    id_service INT,
+    id_payeur INT NOT NULL,
+    id_receveur INT NOT NULL,
+    montant DECIMAL(10, 2) NOT NULL,
+    date_paiement DATETIME DEFAULT CURRENT_TIMESTAMP,
+    type_paiement VARCHAR(255) NOT NULL,
+    statut VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    FOREIGN KEY (id_annonce) REFERENCES annonce(id),
+    FOREIGN KEY (id_service) REFERENCES service(id),
+    FOREIGN KEY (id_payeur) REFERENCES professionnel(id),
+    FOREIGN KEY (id_receveur) REFERENCES particulier(id)
+);USE upcycleconnect_db;
+
+CREATE TABLE particulier (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    score INT DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    derniere_connexion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE salarie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    intitule_poste VARCHAR(255) NOT NULL,
+    type_contrat VARCHAR(255) NOT NULL,
+    salaire DECIMAL(10, 2) NOT NULL,
+    date_embauche DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    derniere_connexion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE professionnel (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom_entreprise VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    numero_siret VARCHAR(14) NOT NULL,
+    telephone VARCHAR(20) NOT NULL,
+    site_web VARCHAR(255),
+    adresse VARCHAR(255) NOT NULL,
+    code_postal VARCHAR(5) NOT NULL,
+    ville VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    derniere_connexion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE annonce (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_annonceur INT NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    prix DECIMAL(10, 2) NOT NULL,
+    date_publication DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_annonceur) REFERENCES particulier(id)
+);
+
+CREATE TABLE objet (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    type_objet VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    localisation VARCHAR(255) NOT NULL,
+    id_conteneur INT NOT NULL,
+    FOREIGN KEY (id_conteneur) REFERENCES conteneur(id),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
+
+CREATE TABLE conteneur (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    matricule VARCHAR(255) NOT NULL,
+    localisation VARCHAR(255) NOT NULL,
+    statut VARCHAR(255) NOT NULL,
+    occupation INT NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE service (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type_service VARCHAR(255) NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    prix DECIMAL(10, 2) NOT NULL,
+    date_service DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE paiement (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_annonce INT,
+    id_service INT,
+    id_payeur INT NOT NULL,
+    id_receveur INT NOT NULL,
+    montant DECIMAL(10, 2) NOT NULL,
+    date_paiement DATETIME DEFAULT CURRENT_TIMESTAMP,
+    type_paiement VARCHAR(255) NOT NULL,
+    statut VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    FOREIGN KEY (id_annonce) REFERENCES annonce(id),
+    FOREIGN KEY (id_service) REFERENCES service(id),
+    FOREIGN KEY (id_payeur) REFERENCES professionnel(id),
+    FOREIGN KEY (id_receveur) REFERENCES particulier(id)
+);
+
+CREATE TABLE suivifinancier (
+    chiffre_affaire DECIMAL(10, 2) NOT NULL,
+    charges DECIMAL(10, 2) NOT NULL,
+    benefice DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mot_de_passe VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE suivifinancier (
+    chiffre_affaire DECIMAL(10, 2) NOT NULL,
+    charges DECIMAL(10, 2) NOT NULL,
+    benefice DECIMAL(10, 2) NOT NULL,
+    
+);
+
+CREATE TABLE admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mot_de_passe VARCHAR(255) NOT NULL
+);
